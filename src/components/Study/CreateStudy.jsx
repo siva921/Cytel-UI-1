@@ -5,6 +5,7 @@ import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
+
 function CreateStudy(props) {
     const [studyStartDate, setStudyStartDate] = useState()
     const [studyCompletionDate, setStudyCompletionDate] = useState()
@@ -15,12 +16,12 @@ function CreateStudy(props) {
     const primaryIndication = useRef(null)
     const secondaryIndication = useRef(null)
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const study_name = studyName.current.value
         const protocol_id = protocolID.current.value
-        const study_start_date = moment(studyStartDate).format('DD/MM/YYYY')
+        const study_start_date = moment(studyStartDate).format('YYYY-MM-DD')
         const study_completion_date = moment(studyCompletionDate).format(
-            'DD/MM/YYYY'
+            'YYYY-MM-DD'
         )
         const study_group = studyGroup.current.value
         const phase = studyPhase.current.value
@@ -29,14 +30,14 @@ function CreateStudy(props) {
 
         if (study_name && study_start_date) {
             props.handleSubmit({
-                study_name,
-                study_start_date,
-                study_completion_date,
-                protocol_id,
-                study_group,
-                phase,
-                primary_indication,
-                secondary_indication,
+                "studyName": study_name,
+                "studyStartDate": study_start_date,
+                "estimatedCompletionDate": study_completion_date,
+                "protocolID": protocol_id,
+                "studyGroup": study_group,
+                "phase": phase,
+                "primaryIndication": primary_indication,
+                "secondaryIndication": secondary_indication
             })
         }
     }
@@ -145,8 +146,8 @@ function CreateStudy(props) {
 
 CreateStudy.defaultProps = {
     show: false,
-    handleClose: () => {},
-    handleSubmit: () => {},
+    handleClose: () => { },
+    handleSubmit: () => { },
 }
 
 CreateStudy.prototype = {

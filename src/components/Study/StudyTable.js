@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
     Navbar,
@@ -9,10 +9,25 @@ import {
     Table,
 } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import moment from 'moment'
+
+
 
 export default function StudyTable(props) {
     const studies = useSelector(state => state.studyReducer.studies)
+
     const dispatch = useDispatch()
+    const [_studies, setStudies] = useState({
+        count: 0,
+        data: []
+    })
+
+    console.log("studies-- testing -- latest", studies);
+
+    useEffect(() => {
+        dispatch({ type: "SET_STUDIES" });
+    }, [dispatch]);
+
     return (
         <React.Fragment>
             <Navbar className="bg-light justify-content-between searchBar">
@@ -54,16 +69,30 @@ export default function StudyTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {studies.map(rowData => (
+                    {studies && studies.map(rowData => (
                         <tr key={rowData.id}>
-                            <td>{rowData.study_name}</td>
+                            {/* <td>{rowData.study_name}</td>
                             <td>{rowData.study_start_date}</td>
                             <td>{rowData.study_completion_date}</td>
                             <td>{rowData.protocol_id}</td>
                             <td>{rowData.study_group}</td>
                             <td>{rowData.phase}</td>
                             <td>{rowData.primary_indication}</td>
-                            <td>{rowData.secondary_indication}</td>
+                            <td>{rowData.secondary_indication}</td> */}
+                            <td>{rowData.studyName}</td>
+                            <td>{moment(rowData.studyStartDate).format("YYYY-MM-DD")}</td>
+                            <td>
+                                {moment(rowData.estimatedCompletionDate).format("YYYY-MM-DD")}
+                            </td>
+                            <td>{rowData.protocolID}</td>
+                            <td>{rowData.studyGroup}</td>
+                            <td>{rowData.phase}</td>
+                            <td>
+                                {rowData.primaryIndication}
+                            </td>
+                            <td>
+                                {rowData.secondaryIndication}
+                            </td>
                             <td>
                                 <FontAwesomeIcon
                                     onClick={() => {
