@@ -1,26 +1,21 @@
-version: 0.2
+version: 0.1
 
 phases:
   install:
     commands:
-      - echo Installing Node 12...
-      - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-      - apt install -y nodejs
-      - echo Installing Yarn...
-      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-      - apt install --no-install-recommends yarn
-  pre_build:
-    commands:
-      - echo Installing dependencies...
-      - yarn
+      - printenv
+      - npm install
   build:
     commands:
-      - echo Testing...      
-      - echo Building...
-      - yarn build
+      - npm run build
+  post_build:
+    commands:
+      - mkdir -p build
+      - tar jcf build/myApp-$(date +%Y%m%d%H%m%S).tar.bz2 .eslintrc.js .gitignore README.md buildspec.yml package.json serverless.yml src test
+      - npm install -g serverless
+      - serverless -v -s $(echo ${CODEBUILD_INITIATOR} | cut -d'/' -f2 | cut -d'_' -f3) deploy
+
 artifacts:
   files:
-    - "**/*"
-  discard-paths: no
-  base-directory: dist
+    - build*/**
+  discard-paths: yes
