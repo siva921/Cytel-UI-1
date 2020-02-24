@@ -16,8 +16,7 @@ phases:
       - yarn
   build:
     commands:
-      - echo Testing...
-      - yarn test
+      - echo Testing...      
       - echo Building...
       - yarn build
 artifacts:
