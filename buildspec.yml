@@ -5,6 +5,7 @@ phases:
     commands:
       - printenv
       - npm install
+      - apt install unzip -y
   pre_build:
     commands:
       - export SONAR_SCANNER_VERSION=4.2.0.1873
