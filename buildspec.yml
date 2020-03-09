@@ -2,7 +2,6 @@ version: 0.1
 
 phases:
   install:
-    runtime-versions:
       java: openjdk8
     commands:
       - printenv
