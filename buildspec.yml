@@ -21,6 +21,6 @@ phases:
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
 artifacts:
   files:
-    - scripts/**/*
-    - appspec.yml
+    - build*/**
+    
   
